@@ -3,7 +3,7 @@
   "id": "emitechreborn",
   "version": "${version}",
   "name": "Emi Tech Reborn",
-  "description": "",
+  "description": "Addon for EMI adding support for TechReborn.",
   "authors": [],
   "contact": {},
   "license": "MIT",
@@ -25,6 +25,7 @@
     "fabric-language-kotlin": ">=${kotlin_loader_version}",
     "fabric": "*",
     "minecraft": "${minecraft_version}",
-    "techreborn": ">=${tr_version}"
+    "techreborn": ">=${tr_version}",
+    "emi": ">=${emi_version}"
   }
 }

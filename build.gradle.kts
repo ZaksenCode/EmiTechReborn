@@ -61,6 +61,7 @@ tasks.processResources {
     inputs.property("minecraft_version", project.property("minecraft_version"))
     inputs.property("loader_version", project.property("loader_version"))
     inputs.property("tr_version", project.property("tr_version").toString().split(":")[1])
+    inputs.property("emi_version", project.property("emi_version").toString().split("+")[0])
     filteringCharset = "UTF-8"
 
     filesMatching("fabric.mod.json") {
@@ -69,7 +70,8 @@ tasks.processResources {
             "minecraft_version" to project.property("minecraft_version"),
             "loader_version" to project.property("loader_version"),
             "kotlin_loader_version" to project.property("kotlin_loader_version"),
-            "tr_version" to project.property("tr_version").toString().split(":")[1]
+            "tr_version" to project.property("tr_version").toString().split(":")[1],
+            "emi_version" to project.property("emi_version").toString().split("+")[0]
         )
     }
 }
