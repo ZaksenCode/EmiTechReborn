@@ -8,6 +8,7 @@ import me.zaksen.emitechreborn.client.emi.widget.CustomTankWidget
 import me.zaksen.emitechreborn.client.emi.widget.EnergyDisplayWidget
 import me.zaksen.emitechreborn.client.emi.widget.ProgressBarWidget
 import net.minecraft.recipe.Ingredient
+import net.minecraft.recipe.RecipeEntry
 import net.minecraft.text.Text
 import net.minecraft.util.math.ColorHelper
 import reborncore.client.gui.GuiBuilder
@@ -17,7 +18,7 @@ import java.text.DecimalFormat
 
 class GrinderRecipe(
     category: EmiRecipeCategory,
-    recipe: RebornRecipe
+    recipe: RecipeEntry<out RebornRecipe>
 ): AbstractMachineRecipe(
     category,
     recipe,
@@ -27,9 +28,10 @@ class GrinderRecipe(
     override fun addWidgets(widgets: WidgetHolder) {
         widgets.addSlot(input[0], 50, 27)
 
-        if(recipe is RebornFluidRecipe) {
-            val fluidStack = EmiStack.of(recipe.fluidInstance.fluid)
-            fluidStack.amount = recipe.fluidInstance.amount.rawValue
+        if(recipe.value is RebornFluidRecipe) {
+            val fRecipe = recipe.value as RebornFluidRecipe
+            val fluidStack = EmiStack.of(fRecipe.fluid().fluid())
+            fluidStack.amount = fRecipe.fluid().amount.rawValue()
             widgets.add(CustomTankWidget(fluidStack, 22, 7, 810000))
         }
 
@@ -39,13 +41,13 @@ class GrinderRecipe(
         widgets.addSlot(output.getOrElse(3) { _ -> EmiIngredient.of(Ingredient.empty())}, 96, 54).recipeContext(this)
 
         widgets.addText(
-            Text.translatable("techreborn.jei.recipe.processing.time.3", DecimalFormat("###.##").format(recipe.time / 20.0)),
+            Text.translatable("techreborn.jei.recipe.processing.time.3", DecimalFormat("###.##").format(recipe.value.time() / 20.0)),
             50,
             2,
             ColorHelper.Argb.getArgb(255, 64, 64, 64),
             false
         )
-        widgets.add(ProgressBarWidget(74, 31, recipe.time * 50.0, GuiBuilder.ProgressDirection.RIGHT))
-        widgets.add(EnergyDisplayWidget(2, 10, recipe.power, recipe.power * recipe.time))
+        widgets.add(ProgressBarWidget(74, 31, recipe.value.time() * 50.0, GuiBuilder.ProgressDirection.RIGHT))
+        widgets.add(EnergyDisplayWidget(2, 10, recipe.value.power(), recipe.value.power() * recipe.value.time()))
     }
 }

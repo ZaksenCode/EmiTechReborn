@@ -40,7 +40,7 @@ class CustomTankWidget(
         for (stack in ingredient.emiStacks) {
             val fes = stack.key
             if (fes is Fluid) {
-                val fes = FluidEmiStack(fes, stack.nbt, ingredient.amount)
+                val fes = FluidEmiStack(fes, stack.componentChanges, ingredient.amount)
                 val floaty = EmiAgnos.isFloatyFluid(fes)
                 val bounds = this.getBounds()
                 val x = bounds.x() + 4
@@ -49,7 +49,7 @@ class CustomTankWidget(
                 val h = bounds.height() - 8
                 val filledHeight = max(
                     1.0,
-                    min(h.toLong().toDouble(), (fes.amount * h.toLong() / this._capacity).toDouble()).toInt().toDouble()
+                    min(h.toLong().toDouble(), (fes.amount * h.toLong() / _capacity).toDouble()).toInt().toDouble()
                 ).toInt()
                 val sy = if (floaty) y else y + h
 

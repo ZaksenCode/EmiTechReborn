@@ -4,12 +4,13 @@ import dev.emi.emi.api.recipe.EmiRecipe
 import dev.emi.emi.api.recipe.EmiRecipeCategory
 import dev.emi.emi.api.stack.EmiIngredient
 import dev.emi.emi.api.stack.EmiStack
+import net.minecraft.recipe.RecipeEntry
 import net.minecraft.util.Identifier
 import reborncore.common.crafting.RebornRecipe
 
 abstract class AbstractMachineRecipe(
     private val category: EmiRecipeCategory,
-    protected val recipe: RebornRecipe,
+    protected val recipe: RecipeEntry<out RebornRecipe>,
     protected val xSize: Int,
     protected val ySize: Int
 ): EmiRecipe {
@@ -17,8 +18,8 @@ abstract class AbstractMachineRecipe(
     protected val input by lazy {
         val result = mutableListOf<EmiIngredient>()
 
-        recipe.rebornIngredients.forEach {
-            result.add(EmiIngredient.of(it.preview))
+        recipe.value.ingredients().forEach {
+            result.add(EmiIngredient.of(it.ingredient, it.count.toLong()))
         }
 
         result
@@ -27,7 +28,7 @@ abstract class AbstractMachineRecipe(
     protected val output by lazy {
         val result = mutableListOf<EmiStack>()
 
-        recipe.getOutputs(null).forEach {
+        recipe.value.outputs().forEach {
             result.add(EmiStack.of(it))
         }
 

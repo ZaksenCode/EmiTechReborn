@@ -7,6 +7,7 @@ import dev.emi.emi.api.widget.WidgetHolder
 import me.zaksen.emitechreborn.client.emi.widget.EnergyDisplayWidget
 import me.zaksen.emitechreborn.client.emi.widget.ProgressBarWidget
 import net.minecraft.recipe.Ingredient
+import net.minecraft.recipe.RecipeEntry
 import net.minecraft.text.Text
 import net.minecraft.util.math.ColorHelper
 import reborncore.client.gui.GuiBuilder
@@ -15,7 +16,7 @@ import java.text.DecimalFormat
 
 class ElectrolyzerRecipe(
     category: EmiRecipeCategory,
-    recipe: RebornRecipe
+    recipe: RecipeEntry<out RebornRecipe>
 ): AbstractMachineRecipe(
     category,
     recipe,
@@ -31,13 +32,13 @@ class ElectrolyzerRecipe(
         widgets.addSlot(output.getOrElse(3) { _ -> EmiIngredient.of(Ingredient.empty())}, 87, 16).recipeContext(this)
 
         widgets.addText(
-            Text.translatable("techreborn.jei.recipe.processing.time.3", DecimalFormat("###.##").format(recipe.time / 20.0)),
+            Text.translatable("techreborn.jei.recipe.processing.time.3", DecimalFormat("###.##").format(recipe.value.time() / 20.0)),
             xSize - 4,
             ySize - 12,
             ColorHelper.Argb.getArgb(255, 64, 64, 64),
             false
         ).horizontalAlign(TextWidget.Alignment.END)
-        widgets.add(ProgressBarWidget(64, 43, recipe.time * 50.0, GuiBuilder.ProgressDirection.UP))
-        widgets.add((EnergyDisplayWidget(5, 10, recipe.power, recipe.power * recipe.time)))
+        widgets.add(ProgressBarWidget(64, 43, recipe.value.time() * 50.0, GuiBuilder.ProgressDirection.UP))
+        widgets.add((EnergyDisplayWidget(5, 10, recipe.value.power(), recipe.value.power() * recipe.value.time())))
     }
 }
