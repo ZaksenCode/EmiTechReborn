@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "emitechreborn",
+  "version": "${version}",
+  "name": "Emi Tech Reborn",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/emitechreborn/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "me.zaksen.emitechreborn.client.EmitechrebornClient"
+    ],
+    "emi": [
+      "me.zaksen.emitechreborn.client.emi.EmiPlugin"
+    ]
+  },
+  "mixins": [
+    "emitechreborn.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-language-kotlin": ">=${kotlin_loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}",
+    "techreborn": ">=${tr_version}"
+  }
+}
