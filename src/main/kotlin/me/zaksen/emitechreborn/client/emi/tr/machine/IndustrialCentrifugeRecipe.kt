@@ -1,4 +1,4 @@
-package me.zaksen.emitechreborn.client.emi.machine
+package me.zaksen.emitechreborn.client.emi.tr.machine
 
 import dev.emi.emi.api.recipe.EmiRecipeCategory
 import dev.emi.emi.api.stack.EmiIngredient
