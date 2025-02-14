@@ -13,14 +13,17 @@ import net.minecraft.recipe.RecipeEntry
 import net.minecraft.recipe.RecipeManager
 import net.minecraft.recipe.RecipeType
 import net.minecraft.recipe.input.RecipeInput
+import net.minecraft.util.Identifier
 import reborncore.common.crafting.RebornRecipe
 import reborncore.common.misc.TriConsumer
+import techreborn.TechReborn
 import techreborn.init.ModRecipes
 import techreborn.init.TRContent.Machine
 
 @Suppress("UNCHECKED_CAST")
 class TechRebornPlugin(private val plugin: EmiPlugin): SubPlugin {
 
+    private val categoryEntries: MutableMap<Identifier, EmiRecipeCategory> = mutableMapOf()
     private val categories: MutableMap<EmiRecipeCategory, CategoryEntry> = mutableMapOf()
 
     override fun load(plugin: EmiPlugin) {
@@ -102,6 +105,10 @@ class TechRebornPlugin(private val plugin: EmiPlugin): SubPlugin {
         }
     }
 
+    fun getCategory(id: Identifier): EmiRecipeCategory? {
+        return categoryEntries[id]
+    }
+
     private fun addCategory(
         machine: Machine,
         type: RecipeType<out RebornRecipe>,
@@ -109,10 +116,11 @@ class TechRebornPlugin(private val plugin: EmiPlugin): SubPlugin {
     ) {
         val entry = plugin.madeEntry(
             EmiStack.of(machine.stack),
-            machine.name,
+            Identifier.of(TechReborn.MOD_ID, machine.name),
             type as RecipeType<Recipe<RecipeInput>>,
             registerFunc as TriConsumer<EmiRegistry, EmiRecipeCategory, RecipeEntry<Recipe<RecipeInput>>>
         )
+        categoryEntries[entry.first.id] = entry.first
         categories[entry.first] = entry.second
     }
 
@@ -124,10 +132,11 @@ class TechRebornPlugin(private val plugin: EmiPlugin): SubPlugin {
     ) {
         val entry = plugin.madeEntry(
             setOf(EmiStack.of(machine.stack)).plus(additionalStacks),
-            machine.name,
+            Identifier.of(TechReborn.MOD_ID, machine.name),
             type as RecipeType<Recipe<RecipeInput>>,
             registerFunc as TriConsumer<EmiRegistry, EmiRecipeCategory, RecipeEntry<Recipe<RecipeInput>>>
         )
+        categoryEntries[entry.first.id] = entry.first
         categories[entry.first] = entry.second
     }
 

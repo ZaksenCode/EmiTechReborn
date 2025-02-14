@@ -24,13 +24,20 @@ java {
 
 
 repositories {
-    // Add repositories to retrieve artifacts from in here.
-    // You should only use this when depending on other mods because
-    // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-    // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-    // for more information about repositories.
+    // EMI
     maven("https://maven.terraformersmc.com/") {
         name = "TerraformersMC"
+    }
+    // Modrinth
+    exclusiveContent {
+        forRepository {
+            maven("https://api.modrinth.com/maven") {
+                name = "Modrinth"
+            }
+        }
+        filter {
+            includeGroup("maven.modrinth")
+        }
     }
 }
 
@@ -50,6 +57,10 @@ dependencies {
     modApi ("RebornCore:RebornCore-${project.property("rc_version")}") {
         exclude("net.fabricmc.fabric-api")
     }
+
+    // Advanced Reborn
+    modImplementation("maven.modrinth:advanced-reborn:${project.property("atr_version")}")
+    modImplementation("maven.modrinth:mcpitanlibarch:${project.property("pitan_lib_version")}")
 
     // Emi
     modCompileOnly("dev.emi:emi-fabric:${project.property("emi_version")}")
